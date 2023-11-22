@@ -1,4 +1,15 @@
-//Apartat b.
+-- Borrem totes les relacions i restriccions
+DROP TABLE regions CASCADE CONSTRAINTS;
+DROP TABLE countries CASCADE CONSTRAINTS;
+DROP TABLE locations CASCADE CONSTRAINTS;
+DROP TABLE inventories CASCADE CONSTRAINTS;
+
+
+
+
+
+
+-- Apartat b.
 
 CREATE TABLE regions(
     REGION_ID NUMBER CONSTRAINT reg_region_id_pk PRIMARY KEY,
@@ -21,3 +32,24 @@ CREATE TABLE locations(
     COUNTRY_ID CHAR(2 BYTE) CONSTRAINT loc_country_id_fk REFERENCES COUNTRIES ON DELETE SET NULL
     );
 
+/*
+A continuació ficaré les sentències de creació dels
+apartats c,d i e
+*/
+
+CREATE TABLE inventories(
+    QUANTITY NUMBER
+);
+
+CREATE TABLE warehouses(
+    WAREHOUSE_ID NUMBER CONSTRAINT war_warehouse_id_pk PRIMARY KEY,
+    WAREHOUSE_NAME VARCHAR2(255 BYTE),
+    LOCATION_ID NUMBER(12) CONSTRAINT war_location_id_fk REFERENCES LOCATIONS ON DELETE SET NULL
+    );
+    
+CREATE TABLE products(
+    PRODUCT_ID NUMBER CONSTRAINT pro_product_id_pk PRIMARY KEY,
+    PRODUCT_NAME VARCHAR2(255 BYTE) CONSTRAINT pro_product_name_nn NOT NULL,
+    DESCRIPTION VARCHAR2(2000 BYTE),
+    STANDARD_COST NUMBER(9, 2),
+    LIST_PRICE NUMBER(9, 2));
