@@ -6,6 +6,7 @@ DROP TABLE inventories CASCADE CONSTRAINTS;
 DROP TABLE warehouses CASCADE CONSTRAINTS;
 DROP TABLE products CASCADE CONSTRAINTS;
 DROP TABLE product_categories CASCADE CONSTRAINTS;
+DROP TABLE contacts CASCADE CONSTRAINTS;
 
 -- Apartat b.
 
@@ -89,7 +90,19 @@ ALTER TABLE products
     ADD(CONSTRAINT pro_list_price_ck CHECK(LIST_PRICE>=0)    
 );
 
+-- iv. Relació CONTACTS
+CREATE TABLE contacts(
+    contact_id NUMBER CONSTRAINT con_contact_id_pk PRIMARY KEY,
+    FIRST_NAME VARCHAR2(255) CONSTRAINT con_first_name_nn NOT NULL,
+    LAST_NAME VARCHAR2(255) CONSTRAINT con_last_name_nn NOT NULL,
+    email VARCHAR2(255)  CONSTRAINT con_email_nn NOT NULL,
+    phone VARCHAR2(20 BYTE)
+);
 
+-- vi.
+ALTER TABLE contacts
+    MODIFY( email CONSTRAINT con_email_ck CHECK(email like '%_@_%._%')
+);
 
 
 
