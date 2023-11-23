@@ -5,6 +5,7 @@ DROP TABLE locations CASCADE CONSTRAINTS;
 DROP TABLE inventories CASCADE CONSTRAINTS;
 DROP TABLE warehouses CASCADE CONSTRAINTS;
 DROP TABLE products CASCADE CONSTRAINTS;
+DROP TABLE product_categories CASCADE CONSTRAINTS;
 
 -- Apartat b.
 
@@ -50,3 +51,51 @@ CREATE TABLE products(
     DESCRIPTION VARCHAR2(2000 BYTE),
     STANDARD_COST NUMBER(9, 2),
     LIST_PRICE NUMBER(9, 2));
+
+
+-- Fem sentències apartat f
+
+ALTER TABLE inventories
+    ADD(PRODUCT_ID NUMBER(12) CONSTRAINT inv_product_id_fk REFERENCES PRODUCTS ON DELETE CASCADE,
+        WAREHOUSE_ID NUMBER(12) ,  -- CONSTRAINT inv_warehouse_id_fk REFERENCES warehouses ON DELETE SET NULL,
+        CONSTRAINT inv_product_id_warehouse_id_pk PRIMARY KEY(PRODUCT_ID,WAREHOUSE_ID),
+        CONSTRAINT inv_warehouse_id_fk FOREIGN KEY(warehouse_id) REFERENCES warehouses ON DELETE SET NULL
+);
+
+ALTER TABLE inventories
+    MODIFY( QUANTITY NUMBER(8) CONSTRAINT inv_quantity_nn NOT NULL
+
+);
+
+-- Fem sentències apartat g
+
+-- i.
+CREATE TABLE PRODUCT_CATEGORIES(
+    CATEGORY_ID NUMBER CONSTRAINT pro_ca_category_id_pk PRIMARY KEY,
+    CATEGORY_NAME VARCHAR2(255 BYTE) DEFAULT 'ANONIMA' CONSTRAINT pro_ca_category_name_nn NOT NULL
+);
+
+-- ii.
+ALTER TABLE products
+    ADD(CATEGORY_ID NUMBER CONSTRAINT pro_category_id_nn NOT NULL CONSTRAINT pro_category_id_fk REFERENCES product_categories ON DELETE CASCADE--,
+    --CONSTRAINT pro_category_id_fk FOREIGN KEY(CATEGORY_ID) REFERENCES product_categories ON DELETE CASCADE 
+);
+
+-- iii.
+--ALTER TABLE products
+--    MODIFY(LIST_PRICE CONSTRAINT pro_list_price_ck CHECK(LIST_PRICE>=0)    
+--);
+ALTER TABLE products
+    ADD(CONSTRAINT pro_list_price_ck CHECK(LIST_PRICE>=0)    
+);
+
+
+
+
+
+
+
+
+
+
+
